@@ -1,0 +1,35 @@
+{
+	"ImportPath": "bitbucket.org/ehazlett/dialogue/api",
+	"GoVersion": "go1.2.1",
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/goprotobuf/proto",
+			"Comment": "go.r60-142",
+			"Rev": "556b9de4249f50f311584f75324a45e426324a19"
+		},
+		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.1.1-5-g5568a01",
+			"Rev": "5568a01db73b24230945a9ccd6813fac482e226f"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Comment": "v1.0-rc1",
+			"Rev": "37d7f8432a3e684eef9b2edece76bdfa6ac85b39"
+		},
+		{
+			"ImportPath": "github.com/dancannon/gorethink",
+			"Comment": "v0.2-7-ge7b8acc",
+			"Rev": "e7b8accd0a60405b50bb625bee3ccd4abdf04756"
+		},
+		{
+			"ImportPath": "github.com/go-martini/martini",
+			"Comment": "v1.0-rc1",
+			"Rev": "de643861770082784ad14cba4557ad68568dcc7b"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/render",
+			"Rev": "870b5a6054ac0e6f2731a27f6156b93c8dd45e4b"
+		}
+	]
+}
