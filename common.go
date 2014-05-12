@@ -2,16 +2,19 @@ package dialogue
 
 type (
 	Authorization struct {
-		Token    string `json:"token" gorethink:"token"`
-		Username string `json:"username" gorethink:"username"`
+		Id       *string `json:"id" gorethink:"id"`
+		Token    string  `json:"token" gorethink:"token"`
+		Username string  `json:"username" gorethink:"username"`
 	}
 	User struct {
-		Username string `json:"username" gorethink:"username"`
-		Password string `json:"password" gorethink:"password"`
+		Id       *string `json:"id" gorethink:"id"`
+		Username string  `json:"username" gorethink:"username"`
+		Password string  `json:"password" gorethink:"password"`
 	}
 	Topic struct {
-		Id    *string `json:"id" gorethink:"id"`
-		Title string  `json:"title" gorethink:"title"`
+		Id     *string `json:"id" gorethink:"id"`
+		Title  string  `json:"title" gorethink:"title"`
+		Closed bool    `json:"closed" gorethink:"closed"`
 	}
 	Post struct {
 		Id      *string `json:"id" gorethink:"id"`

@@ -5,24 +5,26 @@ import (
 	"os"
 	"os/signal"
 
+	"bitbucket.org/ehazlett/dialogue/auth"
+	"bitbucket.org/ehazlett/dialogue/db"
 	"github.com/Sirupsen/logrus"
 )
 
 var (
 	listenAddress    string
-	listenPort       int
 	rethinkDbAddress string
 	rethinkDbName    string
 	enableDebug      bool
+	sessionKey       string
 	log              = logrus.New()
 )
 
 func init() {
-	flag.StringVar(&listenAddress, "l", "", "Listen address")
-	flag.IntVar(&listenPort, "p", 3000, "Listen port")
+	flag.StringVar(&listenAddress, "l", ":3000", "Listen address (i.e. 127.0.0.1:3000)")
 	flag.StringVar(&rethinkDbAddress, "rethink-address", "127.0.0.1:28015", "RethinkDB Address")
 	flag.StringVar(&rethinkDbName, "rethink-name", "dialogue", "RethinkDB Name")
 	flag.BoolVar(&enableDebug, "debug", false, "Enable debug logging")
+	flag.StringVar(&sessionKey, "session-key", "dialogue-key", "Secret Session Key")
 }
 
 func main() {
@@ -34,12 +36,16 @@ func main() {
 	signal.Notify(sig, os.Interrupt)
 
 	// init db
-	db, err := NewRethinkdbSession(rethinkDbAddress, rethinkDbName)
+	db, err := db.NewRethinkdbSession(rethinkDbAddress, rethinkDbName)
 	if err != nil {
 		log.Fatalf("Unable to initialize database: %s", err)
 	}
+
+	// init auth
+	auth := auth.NewAuthenticator(0) // allow specifying cost?
+
 	// launch api
-	api, err := NewApi(listenAddress, listenPort, db)
+	api, err := NewApi(listenAddress, db, auth, sessionKey)
 	if err != nil {
 		log.Fatal("Unable to spawn API server")
 	}

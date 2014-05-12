@@ -3,6 +3,21 @@
 	"GoVersion": "go1.2.1",
 	"Deps": [
 		{
+			"ImportPath": "code.google.com/p/go-uuid/uuid",
+			"Comment": "null-12",
+			"Rev": "7dda39b2e7d5e265014674c5af696ba4186679e9"
+		},
+		{
+			"ImportPath": "code.google.com/p/go.crypto/bcrypt",
+			"Comment": "null-205",
+			"Rev": "fe6c00a82e550c3be0c18b3ed05211c9c2ec8106"
+		},
+		{
+			"ImportPath": "code.google.com/p/go.crypto/blowfish",
+			"Comment": "null-205",
+			"Rev": "fe6c00a82e550c3be0c18b3ed05211c9c2ec8106"
+		},
+		{
 			"ImportPath": "code.google.com/p/goprotobuf/proto",
 			"Comment": "go.r60-142",
 			"Rev": "556b9de4249f50f311584f75324a45e426324a19"
@@ -28,8 +43,24 @@
 			"Rev": "de643861770082784ad14cba4557ad68568dcc7b"
 		},
 		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1be7a086a5fd6440ef16fe96baeda0c78282b980"
+		},
+		{
+			"ImportPath": "github.com/gorilla/securecookie",
+			"Rev": "1b0c7f6e9ab3d7f500fd7d50c7ad835ff428139b"
+		},
+		{
+			"ImportPath": "github.com/gorilla/sessions",
+			"Rev": "c5bbe9d3d3c906d01de60189e5bfbba1d8164a80"
+		},
+		{
 			"ImportPath": "github.com/martini-contrib/render",
 			"Rev": "870b5a6054ac0e6f2731a27f6156b93c8dd45e4b"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/sessions",
+			"Rev": "5fb70e24200d12981048814d5f1732a59671fae4"
 		}
 	]
 }
