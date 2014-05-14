@@ -37,7 +37,6 @@ func init() {
 
 // getConfig returns Configuration from dialogue client config file
 func getConfig() (*Configuration, error) {
-	// TODO parse config
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return nil, err
 	}
