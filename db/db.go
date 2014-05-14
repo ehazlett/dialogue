@@ -107,6 +107,8 @@ func (s *Rethinkdb) DeleteTopic(id string) error {
 	if _, err := tbl.Get(id).Delete().Run(s.session); err != nil {
 		return err
 	}
+	// remove posts
+	rdb.Table(POST_TABLE).Filter(map[string]string{"topicId": id}).Delete().RunRow(s.session)
 	return nil
 }
 

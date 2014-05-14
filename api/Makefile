@@ -1,0 +1,2 @@
+all:
+	@godep go build

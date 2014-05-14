@@ -94,7 +94,6 @@ func (api *dialogueApi) Setup(r *http.Request, rndr render.Render) {
 			return
 		}
 		user = &dialogue.User{
-			Id:       nil,
 			Username: "admin",
 			Password: pw,
 		}
@@ -187,7 +186,6 @@ func (api *dialogueApi) PostTopics(w http.ResponseWriter, r *http.Request, rndr 
 	}
 	// new topic
 	topic := &dialogue.Topic{
-		Id:     nil,
 		Title:  title,
 		Closed: false,
 	}
@@ -215,7 +213,6 @@ func (api *dialogueApi) PostTopicsPosts(w http.ResponseWriter, r *http.Request, 
 	}
 	// new post
 	post := &dialogue.Post{
-		Id:      nil,
 		Content: content,
 		TopicId: topicId,
 		Author:  author.(string),
@@ -272,7 +269,6 @@ func (api *dialogueApi) Authenticate(r *http.Request, rndr render.Render, params
 		}
 		// update current auth token
 		a := &dialogue.Authorization{
-			Id:       nil,
 			Username: username,
 			Token:    t,
 		}
@@ -316,7 +312,6 @@ func (api *dialogueApi) PostUsers(w http.ResponseWriter, r *http.Request, rndr r
 	}
 	// new user
 	user := &dialogue.User{
-		Id:       nil,
 		Username: username,
 		Password: pw,
 	}
