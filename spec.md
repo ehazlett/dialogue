@@ -45,12 +45,12 @@ HTTP JSON API
 `dialogue topics` : returns all open topics (paginated?)
     * `--all` : returns all topics (paginated?)
 
-`dialogue topic` : create a new topic
+`dialogue topics create` : create a new topic
     * `--title "<title>"` : title of topic
 
 `dialogue posts <topic-id>` : returns all posts for topic
 
-`dialogue post <topic-id>` : create a new post in a topic
+`dialogue posts create --topicId <topic-id>` : create a new post in a topic
     * `--content "<content>"` : content of post
 
 # Web UI
