@@ -100,6 +100,34 @@ func cliLogin(c *cli.Context) {
 	log.Info("Login successful")
 }
 
+func cliDeleteTopic(c *cli.Context) {
+	id := c.String("id")
+	if id == "" {
+		log.Fatal("You must specify a topic ID")
+	}
+	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := client.DeleteTopic(id); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func cliCreateTopic(c *cli.Context) {
+	title := c.String("title")
+	if title == "" {
+		log.Fatal("You must specify a title")
+	}
+	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := client.CreateTopic(title); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func cliListTopics(c *cli.Context) {
 	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
 	if err != nil {
@@ -120,30 +148,59 @@ func cliListTopics(c *cli.Context) {
 	w.Flush()
 }
 
-func cliDeleteTopic(c *cli.Context) {
-	if len(c.Args()) == 0 {
-		log.Fatal("You must specify an id")
+func cliCreatePost(c *cli.Context) {
+	content := c.String("content")
+	topicId := c.String("topicId")
+	if content == "" || topicId == "" {
+		log.Fatal("You must specify a topic id and content")
 	}
-	id := c.Args()[0]
 	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err := client.DeleteTopic(id); err != nil {
+	if err := client.CreatePost(topicId, content); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func cliCreateTopic(c *cli.Context) {
-	if len(c.Args()) == 0 {
-		log.Fatal("You must specify a title")
+func cliListPosts(c *cli.Context) {
+	topicId := c.String("topicId")
+	showIds := c.Bool("ids")
+	if topicId == "" {
+		log.Fatal("You must specify a topic id")
 	}
-	title := c.Args()[0]
 	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err := client.CreateTopic(title); err != nil {
+	posts, err := client.GetPosts(topicId)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if len(posts) == 0 {
+		return
+	}
+	w := getTableWriter()
+	for _, p := range posts {
+		fmt.Fprintf(w, "%v\t -%s", p.Content, p.Author)
+		if showIds {
+			fmt.Fprintf(w, "\t%s", p.Id)
+		}
+		fmt.Fprint(w, "\n")
+	}
+	w.Flush()
+}
+
+func cliDeletePost(c *cli.Context) {
+	id := c.String("id")
+	if id == "" {
+		log.Fatal("You must specify a post ID")
+	}
+	client, err := client.NewDialogueClient(URL, USERNAME, TOKEN)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := client.DeletePost(id); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -173,19 +230,28 @@ func main() {
 			Usage:     "Topic Commands",
 			Subcommands: []cli.Command{
 				{
-					Name:   "add",
-					Usage:  "add a new topic",
-					Action: cliCreateTopic,
+					Name:      "create",
+					ShortName: "c",
+					Usage:     "create a new topic",
+					Action:    cliCreateTopic,
+					Flags: []cli.Flag{
+						cli.StringFlag{"title, t", "", "Topic title"},
+					},
 				},
 				{
-					Name:   "delete",
-					Usage:  "delete a topic",
-					Action: cliDeleteTopic,
+					Name:      "delete",
+					ShortName: "d",
+					Usage:     "delete a topic",
+					Action:    cliDeleteTopic,
+					Flags: []cli.Flag{
+						cli.StringFlag{"id, i", "", "Topic ID"},
+					},
 				},
 				{
-					Name:   "list",
-					Usage:  "list topics",
-					Action: cliListTopics,
+					Name:      "list",
+					ShortName: "l",
+					Usage:     "list topics",
+					Action:    cliListTopics,
 				},
 			},
 		},
@@ -195,24 +261,32 @@ func main() {
 			Usage:     "Post Commands",
 			Subcommands: []cli.Command{
 				{
-					Name:  "add",
-					Usage: "add a new post",
-					Action: func(c *cli.Context) {
-						// TODO
+					Name:      "create",
+					ShortName: "c",
+					Usage:     "create a new post",
+					Action:    cliCreatePost,
+					Flags: []cli.Flag{
+						cli.StringFlag{"topicId, i", "", "Topic ID"},
+						cli.StringFlag{"content, c", "", "Post content"},
 					},
 				},
 				{
-					Name:  "delete",
-					Usage: "delete a post",
-					Action: func(c *cli.Context) {
-						// TODO
+					Name:      "delete",
+					ShortName: "d",
+					Usage:     "delete a post",
+					Action:    cliDeletePost,
+					Flags: []cli.Flag{
+						cli.StringFlag{"id, i", "", "Post ID"},
 					},
 				},
 				{
-					Name:  "list",
-					Usage: "list posts",
-					Action: func(c *cli.Context) {
-						// TODO
+					Name:      "list",
+					ShortName: "l",
+					Usage:     "list posts",
+					Action:    cliListPosts,
+					Flags: []cli.Flag{
+						cli.StringFlag{"topicId, i", "", "Topic ID"},
+						cli.BoolFlag{"ids", "Show post ids"},
 					},
 				},
 			},

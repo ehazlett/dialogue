@@ -148,3 +148,46 @@ func (c *client) CreateTopic(title string) error {
 	}
 	return nil
 }
+
+func (c *client) CreatePost(topicId string, content string) error {
+	vals := url.Values{
+		"content": {content},
+	}
+	resp, err := c.postRequest("/topics/"+topicId, vals)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != 204 {
+		apiErr := getApiErrorFromResponse(resp)
+		return errors.New(apiErr.Error)
+	}
+	return nil
+}
+
+func (c *client) GetPosts(topicId string) ([]*dialogue.Post, error) {
+	var posts []*dialogue.Post
+	resp, err := c.doRequest("GET", "/topics/"+topicId)
+	if err != nil {
+		return nil, err
+	}
+	contents, err := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	cb := bytes.NewBufferString(string(contents))
+	d := json.NewDecoder(cb)
+	if err := d.Decode(&posts); err != nil {
+		return nil, err
+	}
+	return posts, nil
+}
+
+func (c *client) DeletePost(id string) error {
+	resp, err := c.doRequest("DELETE", "/posts/"+id)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != 204 {
+		apiErr := getApiErrorFromResponse(resp)
+		return errors.New(apiErr.Error)
+	}
+	return nil
+}
