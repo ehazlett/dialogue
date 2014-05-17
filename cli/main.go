@@ -8,9 +8,9 @@ import (
 	"os/user"
 	"text/tabwriter"
 
-	"bitbucket.org/ehazlett/dialogue/client"
 	"github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/ehazlett/dialogue/client"
 	"github.com/howeyc/gopass"
 )
 

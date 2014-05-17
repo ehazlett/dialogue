@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"bitbucket.org/ehazlett/dialogue"
 	"github.com/Sirupsen/logrus"
 	rdb "github.com/dancannon/gorethink"
+	"github.com/ehazlett/dialogue"
 )
 
 type (

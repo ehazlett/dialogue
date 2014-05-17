@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"bitbucket.org/ehazlett/dialogue"
+	"github.com/ehazlett/dialogue"
 )
 
 var (

@@ -5,9 +5,9 @@ import (
 	"os"
 	"os/signal"
 
-	"bitbucket.org/ehazlett/dialogue/auth"
-	"bitbucket.org/ehazlett/dialogue/db"
 	"github.com/Sirupsen/logrus"
+	"github.com/ehazlett/dialogue/auth"
+	"github.com/ehazlett/dialogue/db"
 )
 
 var (

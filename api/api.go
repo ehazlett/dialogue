@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"bitbucket.org/ehazlett/dialogue"
-	"bitbucket.org/ehazlett/dialogue/auth"
-	"bitbucket.org/ehazlett/dialogue/db"
+	"github.com/ehazlett/dialogue"
+	"github.com/ehazlett/dialogue/auth"
+	"github.com/ehazlett/dialogue/db"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
