@@ -14,9 +14,11 @@ type (
 		SaveTopic(*dialogue.Topic) error
 		DeleteTopic(string) error
 		GetTopic(string) (*dialogue.Topic, error)
+		GetTopics() ([]*dialogue.Topic, error)
 		SavePost(*dialogue.Post) error
 		DeletePost(string) error
 		GetPost(string) (*dialogue.Post, error)
+		GetPosts(string) ([]*dialogue.Post, error)
 		SaveUser(*dialogue.User) error
 		GetUser(string) (*dialogue.User, error)
 		DeleteUser(string) error
@@ -78,6 +80,7 @@ func (s *Rethinkdb) topicExists(title string) bool {
 
 func (s *Rethinkdb) SaveTopic(topic *dialogue.Topic) error {
 	if !s.topicExists(topic.Title) {
+		topic.Created = time.Now()
 		if _, err := rdb.Table(TOPIC_TABLE).Insert(topic).Run(s.session); err != nil {
 			return err
 		}
@@ -130,7 +133,7 @@ func (s *Rethinkdb) GetTopic(id string) (*dialogue.Topic, error) {
 
 func (s *Rethinkdb) GetTopics() ([]*dialogue.Topic, error) {
 	var topics []*dialogue.Topic
-	res, err := rdb.Table(TOPIC_TABLE).Run(s.session)
+	res, err := rdb.Table(TOPIC_TABLE).OrderBy(rdb.Asc("Created")).Run(s.session)
 	if err != nil {
 		log.Errorf("Unable to get topics from db: %s", err)
 		return nil, err
@@ -147,6 +150,7 @@ func (s *Rethinkdb) GetTopics() ([]*dialogue.Topic, error) {
 }
 
 func (s *Rethinkdb) SavePost(post *dialogue.Post) error {
+	post.Created = time.Now()
 	if _, err := rdb.Table(POST_TABLE).Insert(post).Run(s.session); err != nil {
 		return err
 	}
@@ -194,7 +198,7 @@ func (s *Rethinkdb) GetPost(id string) (*dialogue.Post, error) {
 
 func (s *Rethinkdb) GetPosts(topicId string) ([]*dialogue.Post, error) {
 	var posts []*dialogue.Post
-	res, err := rdb.Table(POST_TABLE).Run(s.session)
+	res, err := rdb.Table(POST_TABLE).OrderBy(rdb.Asc("Created")).Run(s.session)
 	if err != nil {
 		log.Errorf("Unable to get posts from db: %s", err)
 		return nil, err

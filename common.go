@@ -1,5 +1,7 @@
 package dialogue
 
+import "time"
+
 type (
 	Authorization struct {
 		Id       string `json:"id" gorethink:"id,omitempty"`
@@ -12,14 +14,16 @@ type (
 		Password string `json:"password" gorethink:"password"`
 	}
 	Topic struct {
-		Id     string `json:"id" gorethink:"id,omitempty"`
-		Title  string `json:"title" gorethink:"title"`
-		Closed bool   `json:"closed" gorethink:"closed"`
+		Id      string    `json:"id" gorethink:"id,omitempty"`
+		Title   string    `json:"title" gorethink:"title"`
+		Closed  bool      `json:"closed" gorethink:"closed"`
+		Created time.Time `json:"created" gorethink:"created"`
 	}
 	Post struct {
-		Id      string `json:"id" gorethink:"id,omitempty"`
-		TopicId string `json:"topicId" gorethink:"topicId"`
-		Author  string `json:"author" gorethink:"author"`
-		Content string `json:"content" gorethink:"content"`
+		Id      string    `json:"id" gorethink:"id,omitempty"`
+		TopicId string    `json:"topicId" gorethink:"topicId"`
+		Author  string    `json:"author" gorethink:"author"`
+		Content string    `json:"content" gorethink:"content"`
+		Created time.Time `json:"created" gorethink:"created"`
 	}
 )
