@@ -1,7 +1,11 @@
 all: build container
 
-build: build/dialogue
+build:
+	@godep restore
 	@godep go build -o build/dialogue
 
 container: build Dockerfile
 	docker build --no-cache -t ehazlett/dialogue-cli .
+
+
+.PHONY: all build container
